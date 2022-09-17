@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <link rel="stylesheet" href="style.css">
+  <title>Frontend Mentor | Todo app</title>
+</head>
+
+<body>
+  <section class="background">
+    <header><img src="images/bg-mobile-dark.jpg" alt=""></header>
+    <div class="rest"></div>
+  </section>
+  <section class="main">
+    <div class="headWrapper">
+      <h1>TODO</h1>
+      <img class="toggleTheme" src="images/icon-sun.svg" alt="Sun Icon">
+    </div>
+    <section class="appWrapper">
+      <input class="addTask" type="text" placeholder="Create a new todo...">
+      <div class="tasksWrapper">
+        <div class="task">
+          <div class="checkBox active"><img class="active" src="images/icon-check.svg" alt="Check"></div>
+          <p class="taskText">Test</p>
+          <div class="cross"><img src="images/icon-cross.svg" alt="Cross button"></div>
+        </div>
+        <div class="task">
+          <div class="checkBox"><img class="active" src="images/icon-check.svg" alt="Check"></div>
+          <p class="taskText">Test2</p>
+          <div class="cross"><img src="images/icon-cross.svg" alt="Cross button"></div>
+        </div>
+        <div class="tasksInformation">
+          <p class="taskLeft">5 items left</p>
+          <p class="clear">Clear Completed</p>
+        </div>
+      </div>
+      <div class="options">
+        <p class="all">All</p>
+        <p class="Active">Active</p>
+        <p class="Completed">Completed</p>
+      </div>
+    </section>
+  </section>
+
+  <!-- <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
+    Coded by <a href="#">Your Name Here</a>.
+  </div> -->
+  <script src="script.js"></script>
+</body>
+
+</html>
