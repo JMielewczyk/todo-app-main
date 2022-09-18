@@ -169,16 +169,16 @@ h1 {
     border: 1px solid var(--color-DarkGrayishBlue);
 }
 
-.checkBox img {
-    display: none;
-}
-
 .checkBox.active {
-    background: linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%))
+    background: no-repeat center url(images/icon-check.svg), linear-gradient(#57DDFF, #C058F3);;
 }
 
-.checkBox.active img {
+.checkBox.active  {
     display: block;
+}
+
+.checkBox.active .taskText {
+    text-decoration: line-through;
 }
 
 .tasksInformation {
