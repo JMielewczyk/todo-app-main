@@ -13,7 +13,7 @@ function renderTasks() {
     tasksWrapper.innerHTML = '';
     tasks.forEach(task => {
         const newTask = `<div class="task">
-          <div class="checkBox"></div>
+          <div class="checkBox ${task.complete}" ></div>
           <p class="taskText" contenteditable="true">${task.text}</p>
           <div class="cross"><img src="images/icon-cross.svg" alt="Cross button"></div>
         </div>`;
@@ -22,9 +22,10 @@ function renderTasks() {
     let crosses = document.querySelectorAll('.cross img');
     tasks.removeCrosses = [];
     crosses.forEach(cross => tasks.removeCrosses.push(cross))
-    let completes = document.querySelectorAll('.checkBox');
-    tasks.completeTasks = [];
-    completes.forEach(task => tasks.completeTasks.push(task))
+    let checkBox = document.querySelectorAll('.checkBox');
+    tasks.checkBox = [];
+    checkBox.forEach(box => tasks.checkBox.push(box))
+
 }
 
 function taskText(e) {
@@ -33,7 +34,8 @@ function taskText(e) {
         let newTask = {
             text: inputValue,
             removeCrosses: [],
-            completeTasks: []
+            checkBox: [],
+            complete: []
         }
         tasks.push(newTask)
         renderTasks()
@@ -54,9 +56,9 @@ function tasksOptions(e) {
     // *************
     // add Complete
     if (e.target.matches('.checkBox')) {
-        let index = tasks.completeTasks.indexOf(e.target);
-        tasks.completeTasks[index].classList.toggle('active');
-        console.log(e.target)
+        let index = tasks.checkBox.indexOf(e.target);
+        tasks.checkBox[index].classList.toggle('active');
+        tasks[index].complete.push('active');
     }
 
 }

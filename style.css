@@ -173,11 +173,8 @@ h1 {
     background: no-repeat center url(images/icon-check.svg), linear-gradient(#57DDFF, #C058F3);;
 }
 
-.checkBox.active  {
-    display: block;
-}
-
-.checkBox.active .taskText {
+.checkBox.active + .taskText {
+    color: var(--color-DarkGrayishBlue);
     text-decoration: line-through;
 }
 
