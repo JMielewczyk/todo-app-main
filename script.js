@@ -1,31 +1,33 @@
-const input_addTask = document.querySelector('.addTask')
-const tasksLeft = document.querySelector('.taskLeft')
+const input_addTask = document.querySelector('.addTask');
+const tasksLeft = document.querySelector('.taskLeft');
 const tasksWrapper = document.querySelector('.tasksWrapper');
 const main = document.querySelector('.main');
 
+
 let tasks = [];
+let completedTasks = [];
 let inputValue;
 
+let flag = false;
 
-
-function renderTasks() {
+function renderTasks(items) {
 
     const tasksWrapper = document.querySelector('.tasksWrapper');
     tasksWrapper.innerHTML = '';
 
-    tasks.forEach(task => {
+    items.forEach(task => {
         const newTask = `<div class="task">
           <div class="checkBox ${task.complete}" ></div>
           <p class="taskText" contenteditable="true">${task.text}</p>
           <div class="cross"><img src="images/icon-cross.svg" alt="Cross button"></div>
-        </div>`
-        tasksWrapper.innerHTML += newTask
+        </div>`;
+        tasksWrapper.innerHTML += newTask;
     })
 
     tasksWrapper.innerHTML += `<div class = "tasksInformation">
             <p class = "taskLeft" > ${tasks.length} items left </p> 
             <p class = "clear" > Clear Completed </p> 
-        </div>`
+        </div>`;
 
     let crosses = document.querySelectorAll('.cross img');
     tasks.removeCrosses = [];
@@ -47,7 +49,7 @@ function taskText(e) {
             complete: []
         }
         tasks.push(newTask)
-        renderTasks()
+        renderTasks(tasks)
     }
 
 }
@@ -60,7 +62,7 @@ function tasksOptions(e) {
     if (e.target.matches('.cross img')) {
         let index = tasks.removeCrosses.indexOf(e.target);
         tasks.splice(index, 1);
-        renderTasks();
+        renderTasks(tasks);
     }
     // *************
     // add Complete
@@ -85,9 +87,21 @@ function tasksOptions(e) {
             }
         }
         for (let i = indexes.length - 1; i >= 0; i--) {
+            completedTasks.push(tasks[indexes[i]])
             tasks.splice(indexes[i], 1)
         }
-        renderTasks();
+        renderTasks(tasks);
     }
+    // *************
+    // show completed
+    if (e.target.matches('.Completed')) {
+        renderTasks(completedTasks);
+    }
+    // *************
+    // show active
+    if (e.target.matches('.Active')) {
+        renderTasks(tasks);
+    }
+
 }
 main.addEventListener('click', tasksOptions)
