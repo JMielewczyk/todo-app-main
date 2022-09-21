@@ -6,9 +6,10 @@ const main = document.querySelector('.main');
 
 let tasks = [];
 let completedTasks = [];
+let allTasks = [];
 let inputValue;
 
-let flag = false;
+let flag = 'all';
 
 function renderTasks(items) {
 
@@ -16,30 +17,40 @@ function renderTasks(items) {
     tasksWrapper.innerHTML = '';
 
     items.forEach(task => {
-        const newTask = `<div class="task">
+        if (items !== completedTasks) {
+            const newTask = `<div class="task">
           <div class="checkBox ${task.complete}" ></div>
           <p class="taskText" contenteditable="true">${task.text}</p>
           <div class="cross"><img src="images/icon-cross.svg" alt="Cross button"></div>
         </div>`;
-        tasksWrapper.innerHTML += newTask;
+            tasksWrapper.innerHTML += newTask;
+        } else {
+            const newTask = `<div class="task">
+          <p class="taskText" contenteditable="true">${task.text}</p>
+          <div class = "cross"><img src = "images/icon-cross.svg"
+          alt = "Cross button" ></div> 
+          </div>`;
+            tasksWrapper.innerHTML += newTask;
+        }
+
     })
 
     tasksWrapper.innerHTML += `<div class = "tasksInformation">
-            <p class = "taskLeft" > ${tasks.length} items left </p> 
+            <p class = "taskLeft" > ${items.length} items left </p> 
             <p class = "clear" > Clear Completed </p> 
         </div>`;
 
     let crosses = document.querySelectorAll('.cross img');
-    tasks.removeCrosses = [];
-    crosses.forEach(cross => tasks.removeCrosses.push(cross))
+    items.removeCrosses = [];
+    crosses.forEach(cross => items.removeCrosses.push(cross))
 
     let checkBox = document.querySelectorAll('.checkBox');
-    tasks.checkBox = [];
-    checkBox.forEach(box => tasks.checkBox.push(box))
+    items.checkBox = [];
+    checkBox.forEach(box => items.checkBox.push(box))
 
 }
 
-function taskText(e) {
+function newTask(e) {
 
     if (e.key === 'Enter') {
         inputValue = e.target.value;
@@ -48,60 +59,121 @@ function taskText(e) {
             text: inputValue,
             complete: []
         }
+        allTasks.push(newTask)
         tasks.push(newTask)
-        renderTasks(tasks)
+        renderTasks(allTasks)
     }
 
 }
-input_addTask.addEventListener('keydown', taskText)
+input_addTask.addEventListener('keydown', newTask)
 
 
+function removeTask(items, target) {
+    let index = items.removeCrosses.indexOf(target);
+    items.splice(index, 1);
+    renderTasks(items);
+}
+
+let indexesOfCompleted;
+let indexesOfNotCompleted = [];
+
+function addComplete(items, target) {
+    let index = items.checkBox.indexOf(target);
+    items.checkBox[index].classList.toggle('active');
+    completedTasks = [];
+    indexesOfNotCompleted = [];
+    if (items[index].complete === 'active') {
+        items[index].complete = [];
+    } else {
+        items[index].complete = 'active';
+    }
+
+    let array = allTasks.map((item, index) => {
+        if (item.complete === 'active') {
+            return index;
+        } else {
+            indexesOfNotCompleted.push(index)
+        }
+    })
+    indexesOfCompleted = array.filter(item => {
+        if (typeof (item) === 'number') {
+            completedTasks.push(items[index])
+            return item;
+        }
+    })
+}
 
 function tasksOptions(e) {
     // remove task
     if (e.target.matches('.cross img')) {
-        let index = tasks.removeCrosses.indexOf(e.target);
-        tasks.splice(index, 1);
-        renderTasks(tasks);
+        switch (flag) {
+            case 'Completed':
+                removeTask(completedTasks, e.target)
+                renderTasks(completedTasks)
+                break;
+            case 'Active':
+                removeTask(tasks, e.target)
+                renderTasks(tasks)
+                break;
+            case 'all':
+                removeTask(allTasks, e.target)
+                renderTasks(allTasks)
+        }
     }
     // *************
     // add Complete
     if (e.target.matches('.checkBox')) {
-        let index = tasks.checkBox.indexOf(e.target);
-        tasks.checkBox[index].classList.toggle('active');
-        if (tasks[index].complete.join() === 'active') {
-            tasks[index].complete = []
-            return
+        if (flag === 'Active') {
+            addComplete(tasks, e.target)
         }
-        tasks[index].complete.push('active');
+        if (flag === 'Completed') {
+            addComplete(completedTasks, e.target)
+        }
+        if (flag === 'all') {
+            addComplete(allTasks, e.target)
+        }
     }
     // *************
     // clear Completed
     if (e.target.matches('.clear')) {
-        let completeTasks = tasks.map(task => task.complete).join();
-        completeTasks = completeTasks.split(',');
-        let indexes = [];
-        for (let i = 0; i < completeTasks.length; i++) {
-            if (completeTasks[i] === "active") {
-                indexes.push([i])
+        if (indexesOfCompleted) {
+            for (let i = indexesOfCompleted.length - 1; i >= 0; i--) {
+                allTasks.splice(indexesOfCompleted[i], 1)
+                completedTasks = [];
             }
+            renderTasks(allTasks)
+        } else {
+            return
         }
-        for (let i = indexes.length - 1; i >= 0; i--) {
-            completedTasks.push(tasks[indexes[i]])
-            tasks.splice(indexes[i], 1)
-        }
-        renderTasks(tasks);
+
     }
     // *************
     // show completed
     if (e.target.matches('.Completed')) {
         renderTasks(completedTasks);
+        flag = 'Completed';
     }
     // *************
     // show active
     if (e.target.matches('.Active')) {
+        if (completedTasks.length !== 0) {
+            tasks = []
+            allTasks.forEach(task => tasks.push(task))
+            for (let i = indexesOfCompleted.length - 1; i >= 0; i--) {
+                tasks.splice(indexesOfCompleted[i], 1)
+            }
+        } else {
+            tasks = [];
+            allTasks.forEach(task => tasks.push(task))
+        }
         renderTasks(tasks);
+        flag = 'Active';
     }
-
+    // *************
+    // show All
+    if (e.target.matches('.all')) {
+        flag = 'all';
+        renderTasks(allTasks);
+    }
 }
 main.addEventListener('click', tasksOptions)
