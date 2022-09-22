@@ -69,9 +69,38 @@ input_addTask.addEventListener('keydown', newTask)
 
 
 function removeTask(items, target) {
-    let index = items.removeCrosses.indexOf(target);
-    items.splice(index, 1);
-    renderTasks(items);
+    if (flag === 'Active') {
+        let index = items.removeCrosses.indexOf(target);
+        let array = [];
+        array = allTasks.filter((item, index) => {
+            if (item.complete === 'active') {
+                return array.push(index)
+            }
+        })
+        tasks.splice(index, 1)
+        allTasks = array.concat(tasks)
+        console.log(array)
+        // tasks.splice(index, 1)
+        // allTasks.splice()
+    }
+    // console.log(allTasks.find(item => item === tasks[index]))
+
+
+    // if (flag === 'Active') {
+    //     if (completedTasks.length !== 0) {
+    //         tasks = []
+    //         allTasks.forEach(task => tasks.push(task))
+    //         for (let i = indexesOfCompleted.length - 1; i >= 0; i--) {
+    //             tasks.splice(indexesOfCompleted[i], 1)
+    //         }
+    //     } else {
+    //         tasks = [];
+    //         allTasks.forEach(task => tasks.push(task))
+    //     }
+    // }
+
+
+
 }
 
 let indexesOfCompleted;
