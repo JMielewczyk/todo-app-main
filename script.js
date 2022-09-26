@@ -50,6 +50,8 @@ function renderTasks(items) {
 
 }
 
+let index_notCompleted = [];
+
 function newTask(e) {
 
     if (e.key === 'Enter') {
@@ -59,9 +61,9 @@ function newTask(e) {
             text: inputValue,
             complete: []
         }
-        allTasks.push(newTask)
-        tasks.push(newTask)
-        renderTasks(allTasks)
+        allTasks.push(newTask);
+        tasks.push(newTask);
+        renderTasks(allTasks);
     }
 
 }
@@ -69,48 +71,40 @@ input_addTask.addEventListener('keydown', newTask)
 
 
 function removeTask(items, target) {
+    let index = items.removeCrosses.indexOf(target);
+    if (flag === 'all') {
+        if (allTasks[index].complete === 'active') {
+            if (completedTasks.length === 1) {
+                completedTasks = [];
+            } else {
+                let findIndex = indexesOfCompleted.indexOf(index)
+                completedTasks.splice(findIndex, 1)
+            }
+
+        }
+        allTasks.splice(index, 1)
+    }
     if (flag === 'Active') {
-        let index = items.removeCrosses.indexOf(target);
-        let array = [];
-        array = allTasks.filter((item, index) => {
-            if (item.complete === 'active') {
-                return array.push(index)
+        let indexActive = [];
+        indexActive = allTasks.map((task, index) => {
+            if (task.complete.length === 0) {
+                return index;
             }
         })
+        indexActive = indexActive.filter(task => typeof (task) === 'number')
+        allTasks.splice([indexActive[index]], 1)
         tasks.splice(index, 1)
-        allTasks = array.concat(tasks)
-        console.log(array)
-        // tasks.splice(index, 1)
-        // allTasks.splice()
+        renderTasks(tasks)
     }
-    // console.log(allTasks.find(item => item === tasks[index]))
-
-
-    // if (flag === 'Active') {
-    //     if (completedTasks.length !== 0) {
-    //         tasks = []
-    //         allTasks.forEach(task => tasks.push(task))
-    //         for (let i = indexesOfCompleted.length - 1; i >= 0; i--) {
-    //             tasks.splice(indexesOfCompleted[i], 1)
-    //         }
-    //     } else {
-    //         tasks = [];
-    //         allTasks.forEach(task => tasks.push(task))
-    //     }
-    // }
-
-
 
 }
 
 let indexesOfCompleted;
-let indexesOfNotCompleted = [];
 
 function addComplete(items, target) {
     let index = items.checkBox.indexOf(target);
     items.checkBox[index].classList.toggle('active');
     completedTasks = [];
-    indexesOfNotCompleted = [];
     if (items[index].complete === 'active') {
         items[index].complete = [];
     } else {
@@ -120,16 +114,21 @@ function addComplete(items, target) {
     let array = allTasks.map((item, index) => {
         if (item.complete === 'active') {
             return index;
-        } else {
-            indexesOfNotCompleted.push(index)
         }
     })
-    indexesOfCompleted = array.filter(item => {
+    let indexes = array.filter(item => {
         if (typeof (item) === 'number') {
-            completedTasks.push(items[index])
-            return item;
+            if (item === 0) {
+                return indexesOfCompleted += '0'
+            } else {
+                return item;
+            }
         }
+
     })
+    for (let i = 0; i < indexes.length; i++) {
+        completedTasks.push(allTasks[indexes[i]])
+    }
 }
 
 function tasksOptions(e) {
@@ -188,6 +187,13 @@ function tasksOptions(e) {
         if (completedTasks.length !== 0) {
             tasks = []
             allTasks.forEach(task => tasks.push(task))
+            indexesOfCompleted = allTasks.map((task, index) => {
+                if (task.complete === 'active') {
+                    return index
+                }
+            })
+            indexesOfCompleted = indexesOfCompleted.filter(task => typeof (task) === 'number')
+            console.log(indexesOfCompleted)
             for (let i = indexesOfCompleted.length - 1; i >= 0; i--) {
                 tasks.splice(indexesOfCompleted[i], 1)
             }
