@@ -2,14 +2,31 @@ const input_addTask = document.querySelector('.addTask');
 const tasksLeft = document.querySelector('.taskLeft');
 const tasksWrapper = document.querySelector('.tasksWrapper');
 const main = document.querySelector('.main');
-
+const options = document.querySelector('.options');
+const clear = document.querySelector('.clear')
 
 let tasks = [];
 let completedTasks = [];
 let allTasks = [];
 let inputValue;
-
+let indexesOfCompleted;
 let flag = 'all';
+
+
+function options_textColor(e, item) {
+    for (const child of options.children) {
+        child.classList.remove('active')
+    }
+    if (e === false) {
+        item.childNodes[1].classList.add('active')
+    } else {
+        e.target.classList.add('active')
+    }
+
+}
+options.addEventListener('click', options_textColor)
+
+
 
 function renderTasks(items) {
 
@@ -64,6 +81,7 @@ function newTask(e) {
         allTasks.push(newTask);
         tasks.push(newTask);
         renderTasks(allTasks);
+        options_textColor(false, options)
     }
 
 }
@@ -99,7 +117,7 @@ function removeTask(items, target) {
 
 }
 
-let indexesOfCompleted;
+
 
 function addComplete(items, target) {
     let index = items.checkBox.indexOf(target);
@@ -116,7 +134,7 @@ function addComplete(items, target) {
             return index;
         }
     })
-    let indexes = array.filter(item => {
+    indexesOfCompleted = array.filter(item => {
         if (typeof (item) === 'number') {
             if (item === 0) {
                 return indexesOfCompleted += '0'
@@ -126,8 +144,8 @@ function addComplete(items, target) {
         }
 
     })
-    for (let i = 0; i < indexes.length; i++) {
-        completedTasks.push(allTasks[indexes[i]])
+    for (let i = 0; i < indexesOfCompleted.length; i++) {
+        completedTasks.push(allTasks[indexesOfCompleted[i]])
     }
 }
 
@@ -164,6 +182,15 @@ function tasksOptions(e) {
     // *************
     // clear Completed
     if (e.target.matches('.clear')) {
+        function addColor() {
+            e.target.classList.add('active')
+            setTimeout(removeColor, 100)
+        }
+
+        function removeColor() {
+            e.target.classList.remove('active')
+        }
+        addColor()
         if (indexesOfCompleted) {
             for (let i = indexesOfCompleted.length - 1; i >= 0; i--) {
                 allTasks.splice(indexesOfCompleted[i], 1)
