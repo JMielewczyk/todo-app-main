@@ -11,23 +11,26 @@
 
 <body>
   <section class="background">
-    <header><img src="images/bg-mobile-dark.jpg" alt=""></header>
-    <div class="rest"></div>
+    <header>
+      <img src="images/bg-mobile-dark.jpg" alt="">
+    </header>
+    <div class="rest toggle"></div>
   </section>
   <section class="main">
     <div class="headWrapper">
       <h1>TODO</h1>
-      <img class="toggleTheme" src="images/icon-sun.svg" alt="Sun Icon">
+      <div class="theme"><img class="switchLight" src="images/icon-sun.svg" alt="Sun Icon"><img class="switchDark"
+          src="images/icon-moon.svg" alt=""></div>
     </div>
     <section class="appWrapper">
-      <input class="addTask" type="text" placeholder="Create a new todo...">
-      <div class="tasksWrapper">
+      <input class="addTask toggle" type="text" placeholder="Create a new todo...">
+      <div class="tasksWrapper toggle">
         <div class="tasksInformation">
           <p class="taskLeft">0 items left</p>
           <p class="disable-selection clear">Clear Completed</p>
         </div>
       </div>
-      <div class="options">
+      <div class="options toggle">
         <p tabindex="0" class="disable-selection all active">All</p>
         <p tabindex="0" class="disable-selection Active">Active</p>
         <p tabindex="0" class="disable-selection Completed">Completed</p>

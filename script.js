@@ -3,7 +3,9 @@ const tasksLeft = document.querySelector('.taskLeft');
 const tasksWrapper = document.querySelector('.tasksWrapper');
 const main = document.querySelector('.main');
 const options = document.querySelector('.options');
-const clear = document.querySelector('.clear')
+const clear = document.querySelector('.clear');
+const theme = document.querySelector('.theme');
+
 
 let tasks = [];
 let completedTasks = [];
@@ -11,6 +13,37 @@ let allTasks = [];
 let inputValue;
 let indexesOfCompleted;
 let flag = 'all';
+let tasksTheme;
+
+function toggleTheme() {
+    const lightElements = document.querySelectorAll('.toggle');
+    const tasks = document.querySelectorAll('.task')
+    if (theme.firstChild.classList[1] === 'toggleTheme') {
+        tasksTheme = '';
+        for (const child of theme.children) {
+            child.classList.toggle('toggleTheme');
+        }
+        for (const el of lightElements) {
+            el.classList.remove('light')
+        }
+        for (const task of tasks) {
+            task.classList.remove('light')
+        }
+    } else {
+        tasksTheme = 'light';
+        for (const child of theme.children) {
+            child.classList.toggle('toggleTheme');
+        }
+        for (const el of lightElements) {
+            el.classList.add('light')
+        }
+        for (const task of tasks) {
+            task.classList.add('light')
+        }
+    }
+
+}
+theme.addEventListener('click', toggleTheme)
 
 
 function options_textColor(e, item) {
@@ -35,14 +68,14 @@ function renderTasks(items) {
 
     items.forEach(task => {
         if (items !== completedTasks) {
-            const newTask = `<div class="task">
+            const newTask = `<div class="task ${tasksTheme}">
           <div class="checkBox ${task.complete}" ></div>
           <p class="taskText" contenteditable="true">${task.text}</p>
           <div class="cross"><img src="images/icon-cross.svg" alt="Cross button"></div>
         </div>`;
             tasksWrapper.innerHTML += newTask;
         } else {
-            const newTask = `<div class="task">
+            const newTask = `<div class="task ${tasksTheme}">
           <p class="taskText" contenteditable="true">${task.text}</p>
           <div class = "cross"><img src = "images/icon-cross.svg"
           alt = "Cross button" ></div> 
