@@ -12,7 +12,10 @@
 <body>
   <section class="background">
     <header>
-      <img src="images/bg-mobile-dark.jpg" alt="">
+      <img class="toggle" src="images/bg-mobile-dark.jpg" alt="">
+      <img class="toggle" src="images/bg-mobile-light.jpg" alt="">
+      <img class="toggle" src="images/bg-desktop-dark.jpg" alt="">
+      <img class="toggle" src="images/bg-desktop-light.jpg" alt="">
     </header>
     <div class="rest toggle"></div>
   </section>
@@ -24,8 +27,9 @@
     </div>
     <section class="appWrapper">
       <input class="addTask toggle" type="text" placeholder="Create a new todo...">
-      <div class="tasksWrapper toggle">
-        <div class="tasksInformation">
+      <div class="wrapper">
+        <div class="tasksWrapper toggle"></div>
+        <div class="tasksInformation toggle">
           <p class="taskLeft">0 items left</p>
           <p class="disable-selection clear">Clear Completed</p>
         </div>

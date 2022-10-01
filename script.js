@@ -5,7 +5,7 @@ const main = document.querySelector('.main');
 const options = document.querySelector('.options');
 const clear = document.querySelector('.clear');
 const theme = document.querySelector('.theme');
-
+const tasksStats = document.querySelector('.taskLeft')
 
 let tasks = [];
 let completedTasks = [];
@@ -13,27 +13,22 @@ let allTasks = [];
 let inputValue;
 let indexesOfCompleted;
 let flag = 'all';
-let tasksTheme;
+let tasksTheme = ' ';
 
 function toggleTheme() {
     const lightElements = document.querySelectorAll('.toggle');
     const tasks = document.querySelectorAll('.task')
     if (theme.firstChild.classList[1] === 'toggleTheme') {
         tasksTheme = '';
-        for (const child of theme.children) {
-            child.classList.toggle('toggleTheme');
-        }
         for (const el of lightElements) {
             el.classList.remove('light')
         }
         for (const task of tasks) {
             task.classList.remove('light')
         }
+
     } else {
         tasksTheme = 'light';
-        for (const child of theme.children) {
-            child.classList.toggle('toggleTheme');
-        }
         for (const el of lightElements) {
             el.classList.add('light')
         }
@@ -41,10 +36,11 @@ function toggleTheme() {
             task.classList.add('light')
         }
     }
-
+    for (const child of theme.children) {
+        child.classList.toggle('toggleTheme');
+    }
 }
 theme.addEventListener('click', toggleTheme)
-
 
 function options_textColor(e, item) {
     for (const child of options.children) {
@@ -60,9 +56,7 @@ function options_textColor(e, item) {
 options.addEventListener('click', options_textColor)
 
 
-
 function renderTasks(items) {
-
     const tasksWrapper = document.querySelector('.tasksWrapper');
     tasksWrapper.innerHTML = '';
 
@@ -70,26 +64,19 @@ function renderTasks(items) {
         if (items !== completedTasks) {
             const newTask = `<div class="task ${tasksTheme}">
           <div class="checkBox ${task.complete}" ></div>
-          <p class="taskText" contenteditable="true">${task.text}</p>
+          <p class="taskText">${task.text}</p>
           <div class="cross"><img src="images/icon-cross.svg" alt="Cross button"></div>
         </div>`;
             tasksWrapper.innerHTML += newTask;
         } else {
             const newTask = `<div class="task ${tasksTheme}">
-          <p class="taskText" contenteditable="true">${task.text}</p>
-          <div class = "cross"><img src = "images/icon-cross.svg"
-          alt = "Cross button" ></div> 
+          <p class="taskText">${task.text}</p> 
           </div>`;
             tasksWrapper.innerHTML += newTask;
         }
 
     })
-
-    tasksWrapper.innerHTML += `<div class = "tasksInformation">
-            <p class = "taskLeft" > ${items.length} items left </p> 
-            <p class = "clear" > Clear Completed </p> 
-        </div>`;
-
+    tasksStats.textContent = `${items.length} items left`
     let crosses = document.querySelectorAll('.cross img');
     items.removeCrosses = [];
     crosses.forEach(cross => items.removeCrosses.push(cross))
@@ -115,6 +102,7 @@ function newTask(e) {
         tasks.push(newTask);
         renderTasks(allTasks);
         options_textColor(false, options)
+        flag = 'all'
     }
 
 }
@@ -215,6 +203,8 @@ function tasksOptions(e) {
     // *************
     // clear Completed
     if (e.target.matches('.clear')) {
+        flag = 'all'
+
         function addColor() {
             e.target.classList.add('active')
             setTimeout(removeColor, 100)
@@ -253,7 +243,6 @@ function tasksOptions(e) {
                 }
             })
             indexesOfCompleted = indexesOfCompleted.filter(task => typeof (task) === 'number')
-            console.log(indexesOfCompleted)
             for (let i = indexesOfCompleted.length - 1; i >= 0; i--) {
                 tasks.splice(indexesOfCompleted[i], 1)
             }
