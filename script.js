@@ -13,7 +13,7 @@ let allTasks = [];
 let inputValue;
 let indexesOfCompleted;
 let flag = 'all';
-let tasksTheme = ' ';
+let tasksTheme = '';
 
 function toggleTheme() {
     const lightElements = document.querySelectorAll('.toggle');
@@ -42,12 +42,14 @@ function toggleTheme() {
 }
 theme.addEventListener('click', toggleTheme)
 
-function options_textColor(e, item) {
+function options_textColor(e, flag) {
     for (const child of options.children) {
         child.classList.remove('active')
     }
-    if (e === false) {
-        item.childNodes[1].classList.add('active')
+    if (e === false && flag === 'all') {
+        options.childNodes[1].classList.add('active')
+    } else if (e === false && flag === 'Active') {
+        options.childNodes[3].classList.add('active')
     } else {
         e.target.classList.add('active')
     }
@@ -63,7 +65,7 @@ function renderTasks(items) {
     items.forEach(task => {
         if (items !== completedTasks) {
             const newTask = `<div class="task ${tasksTheme}">
-          <div class="checkBox ${task.complete}" ></div>
+          <div class="checkBox toggle ${tasksTheme} ${task.complete}" ></div>
           <p class="taskText">${task.text}</p>
           <div class="cross"><img src="images/icon-cross.svg" alt="Cross button"></div>
         </div>`;
@@ -77,32 +79,33 @@ function renderTasks(items) {
 
     })
     tasksStats.textContent = `${items.length} items left`
-    let crosses = document.querySelectorAll('.cross img');
+    const crosses = document.querySelectorAll('.cross img');
     items.removeCrosses = [];
     crosses.forEach(cross => items.removeCrosses.push(cross))
 
-    let checkBox = document.querySelectorAll('.checkBox');
+    const checkBox = document.querySelectorAll('.checkBox');
     items.checkBox = [];
     checkBox.forEach(box => items.checkBox.push(box))
 
 }
 
-let index_notCompleted = [];
-
 function newTask(e) {
 
     if (e.key === 'Enter') {
         inputValue = e.target.value;
-
-        let newTask = {
+        if (!e.target.value) return alert('Empty task... please write something');
+        const newTask = {
             text: inputValue,
             complete: []
         }
         allTasks.push(newTask);
         tasks.push(newTask);
-        renderTasks(allTasks);
-        options_textColor(false, options)
-        flag = 'all'
+        if (flag === "all") {
+            renderTasks(allTasks);
+        } else {
+            renderTasks(tasks)
+        }
+        options_textColor(false, flag)
     }
 
 }

@@ -51,7 +51,6 @@ body {
     height: 100vh;
     position: relative;
     padding: 0 7vw;
-    overflow: hidden;
 }
 
 
@@ -131,7 +130,7 @@ header img:nth-child(4) {
     width: 100%;
     max-width: 350px;
     justify-content: space-between;
-    padding: 10% 0;
+    padding: 60px 0 30px;
 }
 
 h1 {
@@ -146,7 +145,7 @@ h1 {
     position: relative;
     height: 60%;
     width: 50px;
-    /* overflow: hidden; */
+    cursor: pointer;
 }
 
 .switchLight {
@@ -252,6 +251,7 @@ h1 {
     height: 22px;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 .cross img, .checkBox img {
@@ -260,12 +260,23 @@ h1 {
 }
 
 .checkBox {
-    border-radius: 50%;
-    border: 1px solid var(--color-DarkGrayishBlue);
+    background: linear-gradient(#25273C, #25273C) padding-box,
+              linear-gradient(45deg, #57DDFF, #C058F3) border-box;
+  border: 2px solid transparent;
+  border-radius: 100px;
+  
 }
 
 .checkBox.active {
-    background: no-repeat center url(images/icon-check.svg), linear-gradient(#57DDFF, #C058F3);;
+    background: no-repeat center url(images/icon-check.svg), linear-gradient(45deg, #57DDFF, #C058F3) border-box;
+}
+.checkBox.light {
+    background: linear-gradient(#FAFAFA, #FAFAFA) padding-box,
+              linear-gradient(45deg, #57DDFF, #C058F3) border-box;
+}
+
+.checkBox.light.active {
+    background: no-repeat center url(images/icon-check.svg), linear-gradient(45deg, #57DDFF, #C058F3) border-box;
 }
 
 .checkBox.active + .taskText {
@@ -290,6 +301,10 @@ h1 {
     background-color: var(--color-very-light-Gray)
 }
 
+.clear {
+    cursor: pointer;
+}
+
 .clear.active {
     color: var(--color-brightBlue);
 }
@@ -311,7 +326,9 @@ h1 {
 background-color: var(--color-very-light-Gray);
 }
 
-
+.options p {
+    cursor: pointer;
+}
 .all.active, .Active.active, .Completed.active{
     color: var(--color-brightBlue);
 }
@@ -336,6 +353,16 @@ background-color: var(--color-very-light-Gray);
       color: hsl(228, 45%, 44%);
     } */
 
+
+@media (max-height: 670px) {
+    .headWrapper {
+        padding: 40px 0 20px 0;
+    }
+    .wrapper {
+        height: 70%;
+    max-height: 70%;
+    }
+}
 
 @media (min-height:700px) {
     .main {
