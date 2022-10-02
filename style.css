@@ -231,6 +231,11 @@ h1 {
     flex-shrink: 0;
 }
 
+
+.task.light {
+    border-bottom: 1px solid var(--color-veryLight_2);
+}
+
 .task.light p {
     color: var(--color-veryDark_GrayishBlue);
 }
@@ -259,12 +264,13 @@ h1 {
     height: 65%;
 }
 
+
+
 .checkBox {
     background: linear-gradient(#25273C, #25273C) padding-box,
-              linear-gradient(45deg, #57DDFF, #C058F3) border-box;
-  border: 2px solid transparent;
+              var(--color-veryDark_GrayishBlue) border-box;
+    border: 1px solid transparent;
   border-radius: 100px;
-  
 }
 
 .checkBox.active {
@@ -272,7 +278,15 @@ h1 {
 }
 .checkBox.light {
     background: linear-gradient(#FAFAFA, #FAFAFA) padding-box,
+              var(--color-veryLight_2) border-box;
+    border: 2px solid transparent;
+}
+
+.checkBox.light:hover{
+    background: linear-gradient(#FAFAFA, #FAFAFA) padding-box,
               linear-gradient(45deg, #57DDFF, #C058F3) border-box;
+  border: 2px solid transparent;
+  border-radius: 100px;
 }
 
 .checkBox.light.active {
@@ -391,5 +405,32 @@ background-color: var(--color-very-light-Gray);
 
     .appWrapper, .headWrapper{
         max-width: 500px;
+    }
+
+    .task:hover .cross {
+    opacity:1;
+    }
+
+    .cross {
+    transition: .2s;
+    opacity:0;
+    }
+    .tasksInformation p.clear {
+        transition: .2s;
+    }
+    .tasksInformation p.clear:hover:not(.active){
+        color: var(--color-LightGrayishBlue_hover);
+    }
+    .options p {
+    transition: .2s;
+    }
+    .options p:hover:not(.active) {
+        color: var(--color-LightGrayishBlue_hover);
+    }
+    .tasksInformation.light p.clear:hover:not(.active){
+        color: var(--color-veryDark_GrayishBlue);
+    }
+    .options.light p:hover:not(.active) {
+        color: var(--color-veryDark_GrayishBlue);
     }
 }

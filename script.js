@@ -44,14 +44,21 @@ theme.addEventListener('click', toggleTheme)
 
 function options_textColor(e, flag) {
     for (const child of options.children) {
-        child.classList.remove('active')
+
     }
     if (e === false && flag === 'all') {
         options.childNodes[1].classList.add('active')
     } else if (e === false && flag === 'Active') {
         options.childNodes[3].classList.add('active')
     } else {
-        e.target.classList.add('active')
+        for (const child of options.children) {
+            if (e.target === child) {
+                for (const child of options.children) {
+                    child.classList.remove('active')
+                }
+                child.classList.add('active');
+            }
+        }
     }
 
 }
@@ -210,7 +217,7 @@ function tasksOptions(e) {
 
         function addColor() {
             e.target.classList.add('active')
-            setTimeout(removeColor, 100)
+            setTimeout(removeColor, 200)
         }
 
         function removeColor() {
