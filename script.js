@@ -222,6 +222,7 @@ function tasksOptions(e) {
                 allTasks.splice(indexesOfCompleted[i], 1)
                 completedTasks = [];
             }
+            indexesOfCompleted = [];
             renderTasks(allTasks)
         } else {
             return
