@@ -358,14 +358,17 @@ background-color: var(--color-very-light-Gray);
 }
 
 
-/* .attribution {
-      font-size: 11px;
-      text-align: center;
-    }
+.attribution {
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    text-align: center;
+    color:var(--color-DarkGrayishBlue);
+}
 
     .attribution a {
-      color: hsl(228, 45%, 44%);
-    } */
+      color: var(--color-DarkGrayishBlue);
+    }
 
 
 @media (max-height: 670px) {
@@ -375,6 +378,9 @@ background-color: var(--color-very-light-Gray);
     .wrapper {
         height: 70%;
     max-height: 70%;
+    }
+    .attribution {
+        display: none;
     }
 }
 
@@ -407,10 +413,12 @@ background-color: var(--color-very-light-Gray);
         max-width: 500px;
     }
 
+    
+}
+@media (min-width:1024px) {
     .task:hover .cross {
     opacity:1;
     }
-
     .cross {
     transition: .2s;
     opacity:0;
